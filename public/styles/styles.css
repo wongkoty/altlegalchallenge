@@ -1,0 +1,13 @@
+* {
+  margin: 0px;
+
+}
+body {
+  background-color: papayawhip
+}
+header {
+  border-bottom: solid 1px black;
+}
+header img {
+  margin: 20px;
+}
