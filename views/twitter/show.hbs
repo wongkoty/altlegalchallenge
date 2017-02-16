@@ -1,0 +1,16 @@
+{{#if user}}
+{{errors}}
+{{#each user.hashtags}}
+  #{{this.name}}
+  <form action='/{{../user.id}}/hashtag/{{this.id}}' method='POST'>
+    <input type="hidden" name="_method" value="delete">
+    <button type='submit'>Delete</button>
+  </form>
+{{/each}}
+
+<form action='/{{user.id}}/hashtag' method='POST'>
+  <input type="text" name="name" placeholder="Add a hashtag">
+  {{!-- <input type="Submit"> --}}
+</form>
+
+{{/if}}
