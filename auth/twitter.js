@@ -1,5 +1,6 @@
 var passport = require('passport');
 var TwitterStrategy = require('passport-twitter').Strategy;
+// console.log('wtf')
 
 var User = require('../models/user');
 var config = require('../_config');
@@ -11,7 +12,7 @@ passport.use(new TwitterStrategy({
     callbackURL: config.twitter.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
-
+    console.log('in twitter auth passport')
     var searchQuery = {
       name: profile.displayName
     };
@@ -27,6 +28,7 @@ passport.use(new TwitterStrategy({
 
     // update the user if s/he exists or add a new user
     User.findOneAndUpdate(searchQuery, updates, options, function(err, user) {
+      console.log('user twitter')
       if(err) {
         return done(err);
       } else {

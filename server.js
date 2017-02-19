@@ -2,11 +2,13 @@ var express = require('express');
 var app = express();
 var logger = require('morgan');
 var hbs = require('hbs');
+var hbsIntl = require('handlebars-intl');
 var session = require('express-session')
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var methodOverride = require('method-override')
-var port = process.env.PORT || 3000
+var port = process.env.PORT || 3001
+var cors = require('cors')
 var mongoose = require('mongoose')
 
 // Controllers
@@ -15,6 +17,16 @@ var twitterController = require('./controllers/twitter.js');
 // db
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/altlegal'
 mongoose.connect(mongoURI)
+
+if (process.env.NODE_ENV == 'production') {
+  app.use(express.static('client/build'));
+}
+
+app.use(function(req, res, next){
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+})
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -36,10 +48,13 @@ app.use(passport.session());
 
 app.use(express.static('public'))
 app.set('view engine', 'hbs');
+hbsIntl.registerWith(hbs)
 app.use(logger('dev'));
 
 
 app.use('/', twitterController)
+
+
 
 app.listen(port, function() {
   console.log(`we are on port ${port}`)

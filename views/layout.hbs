@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="styles/styles.css">
   <title>ALT Legal</title>
 </head>
-<header>
-  <a href="/"><img src="images/logo_2x.png"></a>
-  {{#if user}}
-    Welcome {{user.name}}!
-    <a href='/logout'>Logout</a>
-  {{else}}
-    <a href="/signup">Signup</a>
-    <a href="/login">Login</a>
-  {{/if}}
-</header>
+<nav>
+  <div class="nav">
+    <div class ="nav-links">
+      <a href="/"><img src="images/logo_2x.png"></a>
+      {{!-- <a href="/signup">Signup</a> --}}
+      <a href="#">features</a>
+      <a href="#">testimonials</a>
+      <a href="#">about</a>
+      <a href="#">contact</a>
+      
+      {{#if user}}
+        Welcome {{user.name}}!
+        <a href='/logout'>Logout</a>
+      {{else}}
+      <a href="/login" class='login'>Sign in</a>
+    {{/if}}
+    </div>
+  </div>
+</nav>
 <body>
 {{{body}}}
 </body>
