@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "nf start -p $PORT",
+    "dev": "nf start -p 3000 --procfile Procfile.dev",
+    "server": "babel-node server.js",
+    "client": "babel-node start-client.js"
   },
   "author": "",
   "license": "ISC",
@@ -15,12 +17,17 @@
     "cors": "^2.8.1",
     "express": "^4.14.1",
     "express-session": "^1.15.1",
+    "foreman": "^2.0.0",
     "handlebars-intl": "^1.1.2",
     "hbs": "^4.0.1",
     "method-override": "^2.3.7",
     "mongoose": "^4.8.2",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
+    "querystring": "^0.2.0",
     "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.3.0"
   }
 }

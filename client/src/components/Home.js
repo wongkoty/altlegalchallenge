@@ -1,10 +1,27 @@
 import React, { Component } from 'react';
 import logo from '../assets/images/logo_2x.png';
-
+import $ from 'jquery'
 
 export default class App extends Component {
   constructor(props) {
     super(props);
+    this.state = {current_user: null};
+    this.loggedInUser = this.loggedInUser.bind(this);
+  }
+  componentWillMount(){
+    console.log('component will mount')
+    this.loggedInUser();
+  }
+  loggedInUser(){
+    console.log('loggedinuser');
+    $.ajax({
+      method: 'GET',
+      url: '/test'
+    }).done(function(data){
+      console.log(data)
+    }).fail(function(err){
+      console.log(err)
+    })
   }
   login(e) {
     e.preventDefault();
