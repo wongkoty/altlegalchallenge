@@ -9,16 +9,29 @@ var passport = require('passport');
 var methodOverride = require('method-override')
 var port = process.env.PORT || 3001
 var cors = require('cors')
+var livereload = require('connect-livereload');
 var mongoose = require('mongoose')
+var cookieParser = require('cookie-parser');
+var MongoStore = require('connect-mongo')(session);
 
-// Controllers
-var twitterController = require('./controllers/twitter.js');
+
 
 // db
 var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/altlegal'
 mongoose.connect(mongoURI)
+var db = mongoose.connection;
 
+const server = app.listen(port, function() {
+  console.log(`we are on port ${port}`)
+})
 
+const io = require('socket.io')(server);
+// console.log(io)
+
+// Controllers
+var twitterController = require('./controllers/twitter.js');
+
+app.use(livereload())
 app.use(express.static('client/build'));
 
 
@@ -38,10 +51,14 @@ app.use(methodOverride(function (req, res) {
     return method
   }
 }))
+app.use(cookieParser());
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
-  saveUninitialized: true
+  saveUninitialized: true,
+  maxAge: 20000,
+  secure: false,
+  store: new MongoStore({ mongooseConnection: db})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -52,10 +69,20 @@ hbsIntl.registerWith(hbs)
 app.use(logger('dev'));
 
 
-app.use('/', twitterController)
+app.use('/', function(req, res, next){
+  res.io = io
+  next()
+},twitterController)
 
 
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  
+  // setInterval(function(){
+  //   io.emit('hello', {poo: 'pee'})
+  // }, 1000)
 
-app.listen(port, function() {
-  console.log(`we are on port ${port}`)
-})
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+});
