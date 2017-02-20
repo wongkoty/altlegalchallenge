@@ -24,6 +24,7 @@ router.get('/loggedinuser', function(req, res){
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   if(req.session.current_user){
     User.findById(req.session.current_user._id, function(err, user){
+      console.log(user);
       var hashtags = user.hashtags.map(function(hashtag){
         return hashtag.name
       })
@@ -35,7 +36,6 @@ router.get('/loggedinuser', function(req, res){
 
   }
 })
-
 
 router.get('/auth/twitter', function(req, res){
   var oauth = {
@@ -56,24 +56,8 @@ router.get('/auth/twitter', function(req, res){
       console.log(err)
     }
   })
-
 })
 
-router.post('/newwatch', function(req, res){
-  hashtag = new Hashtag(req.body);
-  User.findById(req.session.current_user._id, function(err, user){
-    user.hashtags.push(hashtag);
-    user.save(function(err){
-      if(err){
-        req.session.errors = "Only 3 lists allowed!"
-        req.session.save()
-        res.send('errors')
-      } else {
-        res.send('added list')
-      }
-    });
-  })
-})
 
 router.post('/auth/twitter_token', function(req, res){
   var query = decodeURI(req.body);
@@ -127,6 +111,23 @@ router.get('/auth/twitter/callback', function(req, res){
     }
   })
 })
+
+router.post('/newwatch', function(req, res){
+  hashtag = new Hashtag(req.body);
+  User.findById(req.session.current_user._id, function(err, user){
+    user.hashtags.push(hashtag);
+    user.save(function(err){
+      if(err){
+        req.session.errors = "Only 3 lists allowed!"
+        req.session.save()
+        res.send('errors')
+      } else {
+        res.send('added list')
+      }
+    });
+  })
+})
+
 
 router.post('/gettweets', function(req, res){
   var tweetsArr = req.body.data
