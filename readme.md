@@ -4,17 +4,19 @@ Alt Legal Code Challenge
 # Instructions
 1. In the root direct, run `npm install` to install dependencies.
 
-2. You will need to make a `_config.js` file in the root directory with:
+2. You will need to make a `_config.js` file in the root directory with this code:
 `var ids = {
   twitter: {
-    consumerKey: '0rA7q4Fe3UUPy0ttkFjLA1i21',
-    consumerSecret: 'AZRZNF1HuSKmNr4UdB6PiE2DpxxoLKQG3wxFtN4Hk1ZBHbRgNv',
-    accessToken:  '816156838039273472-daZUtCZz6rbZiLqpQTPnOGuNiWAhcrL',
-    accessTokenSecret: 'RPKHz7KeQkqdw7qSdamjh7NOvzVWUXXGo6CfzoBLkQ1j3',
+    consumerKey: consumerKey,
+    consumerSecret: consumerSecret,
+    accessToken:  accessToken,
+    accessTokenSecret: accessTokenSecret,
     callbackURL: "http://127.0.0.1:3000/auth/twitter/callback"
   }
 };
 module.exports = ids;`
+
+You will have to input your own keys, or I can send you the `_config.js` file.
 
 3. Run `mongod` in terminal first. The application will create a DB named altlegal upon starting the server.
 
