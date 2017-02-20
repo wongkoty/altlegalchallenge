@@ -2,10 +2,8 @@ var express = require('express');
 var app = express();
 var logger = require('morgan');
 var hbs = require('hbs');
-var hbsIntl = require('handlebars-intl');
 var session = require('express-session')
 var bodyParser = require('body-parser');
-var passport = require('passport');
 var methodOverride = require('method-override')
 var port = process.env.PORT || 3001
 var mongoose = require('mongoose')
@@ -46,8 +44,7 @@ app.use(session({
   maxAge: 20000,
   secure: false,
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+
 
 app.use(express.static('public'))
 app.use(logger('dev'));
@@ -56,4 +53,4 @@ app.use(logger('dev'));
 app.use('/', function(req, res, next){
   res.io = io
   next()
-},twitterController)
+}, twitterController)

@@ -16,8 +16,6 @@ var UserSchema = new Schema({
 })
 
 UserSchema.pre('save', function(next) {
-  console.log('in save')
-  console.log(this)
   if (this.hashtags.length > 3) {
     next(new Error('Already have 3 lists'));
   } else {
