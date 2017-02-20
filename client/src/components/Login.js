@@ -41,29 +41,12 @@ export default class Login extends Component {
       console.log(data);
     })
   }
-  // test(){
-  //   $.ajax({
-  //     url: '/test',
-  //     method: 'GET',
-  //     crossDomain: true,
-  //     dataType: 'jsonp'
-  //   }).done(function(data){
-  //     console.log('success')
-  //     console.log(data);
-  //   }).fail(function(err) {
-  //     console.log('failed');
-  //     console.log(err);
-  //   }).always(function(){
-  //     console.log('aways');
-  //   })
-  // }
   render() {
     return (
       <div className='login-container'>
         <a href="#" onClick={this.twitterSignIn}><img src={twitter} /></a><br/>
-         Login with Twitter
-         {this.state.test}
-         <a href='#' onClick={this.test}>test</a>
+         Login with Twitter<br/>
+          {this.state.test != null ? <a href={this.state.test}>Click here to continue to twitter</a> : ''}
       </div>
     )
   }

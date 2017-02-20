@@ -13,15 +13,18 @@ export default class App extends Component {
     this.state = {
       current_user: null,
       hashtags: [],
-      hashtag_data: []
+      hashtag_data: [],
+      status: false,
     };
     this.loggedInUser = this.loggedInUser.bind(this);
     this.test = this.test.bind(this);
-      this.getTweets = this.getTweets.bind(this);
+    this.getTweets = this.getTweets.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
+    this.deleteList = this.deleteList.bind(this);
+    this.stateChange = this.stateChange.bind(this);
 
 
-        var self = this;
+    var self = this;
     socket.on('hello', function(data){
       // console.log('meow')
       console.log(data.data)
@@ -33,22 +36,42 @@ export default class App extends Component {
     console.log('component will mount')
     console.log(cookie);
     this.loggedInUser();
+    
+  }
+  componentDidMount(){
+    var self = this;
+    setInterval(function(){
+      self.getTweets()
+    }, 5000);
   }
   getTweets(){
     console.log('getting tweets')
     console.log(this.state.hashtags) 
     $.ajax({
-      method: 'POST',
-      url: '/gettweets',
-      data: {data: this.state.hashtags}
-    }).done(function(data){
-      console.log(data);
-    })
+        method: 'POST',
+        url: '/gettweets',
+        dataType: 'json',
+        data: {data: this.state.hashtags}
+      }).done(function(data){
+        console.log(data);
+      })
+
+    // var self = this
+    // setInterval(function(){
+    //   var self1 = self;
+    //   $.ajax({
+    //     method: 'POST',
+    //     url: '/gettweets',
+    //     dataType: 'json',
+    //     data: {data: self1.state.hashtags}
+    //   }).done(function(data){
+    //     console.log(data);
+    //   })
+    // }, 10000)
   }
   handleStateChange(data){
     var arr = []
     data.forEach(function(element){
-
       // arr.push(element.name)
       var tweets = []
       element.tweets.statuses.forEach(function(tweet){
@@ -62,7 +85,7 @@ export default class App extends Component {
       arr.push(obj)
     })
     this.setState({hashtag_data: arr})
-    // console.log(this.state)
+    console.log(this.state)
   }
   loggedInUser(){
     console.log('loggedinuser');
@@ -85,10 +108,37 @@ export default class App extends Component {
     this.setState({page: 'login'})
     console.log('this has been reached')
   }
+  deleteList(e) {
+    console.log('deleteList')
+    console.log(e.target.getAttribute('id'))
+    var self = this;
+    $.ajax({
+      method: 'DELETE',
+      url: '/hashtag',
+      data: {data: e.target.getAttribute('id')}
+    }).done(function(data){
+      console.log('done deleting')
+      console.log(data)
+      self.loggedInUser();
+      if(self.state.status){
+        self.setState({status: false})
+      } else {
+        self.setState({status: true})
+      }
+    })
+  }
   test(data){
     console.log('weeee callback')
     console.log(data);
     this.setState({hashtag_data: data})
+  }
+  stateChange(){
+    console.log('changing state for tweets component')
+    if(this.state.status){
+      this.setState({status: false})
+    } else {
+      this.setState({status: true})
+    }
   }
   render() {
     const isLoggedIn = this.state.current_user
@@ -102,13 +152,13 @@ export default class App extends Component {
                 <a href="#">testimonials</a>
                 <a href="#">about</a>
                 <a href="#">contact</a>
-                {isLoggedIn ? <a href='/logout' onClick={this.props.stateChange} className='logout'>Logout</a> 
+                {isLoggedIn ? <a href='#' onClick={this.test} className='logout'>Logout</a> 
                   : <a href='#' onClick={this.props.stateChange} className='login'>Sign in</a>}
                 {isLoggedIn ? <a href="#">{this.state.current_user}</a> : ''}
               </div>
             </div>
           </nav>
-          {isLoggedIn ? <Tweets callback={this.test} hashtag_data={this.state.hashtag_data} hashtags={this.state.hashtags}/> : ''}
+          {isLoggedIn ? <Tweets stateChange={this.loggedInUser} deleteList={this.deleteList} callback={this.test} hashtag_data={this.state.hashtag_data} hashtags={this.state.hashtags}/> : ''}
           {this.props.goodBye}
         </div>
       );

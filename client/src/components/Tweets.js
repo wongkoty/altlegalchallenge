@@ -10,7 +10,8 @@ export default class Login extends Component {
     this.state = {
       value: '',
       hashtags: [],
-      change: false
+      change: false,
+      status: false
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -31,15 +32,30 @@ export default class Login extends Component {
   }
   handleSubmit(e){
     e.preventDefault();
+    var self = this;
+    $.ajax({
+      url: '/newwatch',
+      method: 'POST',
+      data: {name: this.state.value}
+    }).done(function(data){
+      console.log(data);
+      self.props.stateChange()
+    })
   }
   getTweets(){
     console.log('getting tweets') 
+
     $.ajax({
       method: 'POST',
       url: '/gettweets',
       data: {data: this.props.hashtags}
     }).done(function(data){
       console.log(data);
+      // if(self.state.status){
+      //   self.setState({status: false})
+      // } else {
+      //   self.setState({status: true})
+      // }
     })
   }
   handleStateChange(data){
@@ -61,28 +77,32 @@ export default class Login extends Component {
     this.setState({hashtags: arr})
     // console.log(this.state)
   }
+  deleteList(){
+    console.log('deleteList');
+  }
   render() {
-    var test = this.props.hashtags.map(function(hashtag){
-      // console.log(hashtag);
-      return (
-          <div className='tweets'>
-            {hashtag}
-          </div>)
-    })
-
     console.log(this.props)
-    var blah = this.props.hashtag_data.map(function(obj){
-      var blah1 = obj.tweets.map(function(tweet){
-        console.log(tweet.text);
-        return(<div>{tweet.text}</div>);
+    var self = this;
+    var tweets_render = this.props.hashtag_data.map(function(obj){
+      var self1 = self;
+      var tweets = obj.tweets.map(function(tweet){
+        // console.log(tweet.text);
+        return(
+          <li>{tweet.text}</li>);
       })
-      return blah1
+      return (
+        <div className="tweets">
+          <h3>#{obj.name}</h3><br/>
+          <div className="tweet-text-container">
+            {tweets}
+          </div>
+          <button onClick={self1.props.deleteList} id={obj.name}>Delete {obj.name}</button>
+        </div>)
     })
     return (
       <div className='tweet-component'>
-        <div className='tweets-container'>
-          {test}
-          {blah}
+        <div className="tweets-container">
+          {tweets_render}
         </div>
         <form onSubmit={this.handleSubmit}>
           <label>
@@ -91,7 +111,6 @@ export default class Login extends Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        {this.state.test}
       </div>
 
     )

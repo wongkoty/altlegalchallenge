@@ -69,10 +69,9 @@ nav a {
   height: 100px;
 }
 .tweets {
-  height: 450px;
+  height: 480px;
   width: 350px;
   border: 1px #333A39 solid;
-
   display: inline-block;
   margin-left: 15px;
   margin-right: 15px;
@@ -89,10 +88,21 @@ nav a {
   margin-left: 15px;
   margin-right: 15px;
 }
-.test {
-  height: 360px;
+.tweets button {
+  text-align: center;
+  margin-top: 12px;
+  margin-left: 30%;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  border: 1px #333A39 solid;
+  padding: 14px 26px;
+  background-color: white;
+}
+.tweet-text-container {
+  height: 338px;
   width: 350px;
   overflow: auto;
+  margin-top: -9px;
 }
 .errors-container {
   font-family: 'Montserrat', sans-serif;
@@ -100,13 +110,12 @@ nav a {
   width: 300px;
   height: 60px;
   margin: 30px auto;
-  // vertical-align: middle;
   background-color: #BE1413;
   border: 1px #333A39 solid;
 }
 .errors-container h2 {
-  margin-top: 15px;
-  text-align: center;
+  margin-top: 14px;
+  margin-left: 37%;
 }
 .tweets-container {
   font-family: 'Montserrat', sans-serif;
@@ -114,9 +123,12 @@ nav a {
   margin-top: 40px;
   text-align: center;
 }
+.tweets-container form label {
+  font-family: 'Montserrat', sans-serif;
+  color: #333A39;
+  margin-top: 40px;
+  text-align: center;
+}
 .delete-button {
   display: inline-block;
-}
-h3 b {
-
 }
