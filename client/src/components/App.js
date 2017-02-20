@@ -13,10 +13,6 @@ export default class App extends Component {
   }
   stateChange(e) {
     e.preventDefault()
-    console.log(e.target.className)
-    console.log('test')
-    // console.log(test)
-    // console.log(this.state);
     this.setState({page: e.target.className})
   }
   render() {

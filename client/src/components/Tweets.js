@@ -17,14 +17,8 @@ export default class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.getTweets = this.getTweets.bind(this);
     this.handleStateChange = this.handleStateChange.bind(this);
-
-  }
-  componentWillMount(){
-    console.log(this.props)
-
   }
   componentDidMount(){
-    console.log('did mount')
     this.setState({change: true})
   }
   handleChange(e){
@@ -38,31 +32,20 @@ export default class Login extends Component {
       method: 'POST',
       data: {name: this.state.value}
     }).done(function(data){
-      console.log(data);
       self.props.stateChange()
     })
   }
   getTweets(){
-    console.log('getting tweets') 
-
     $.ajax({
       method: 'POST',
       url: '/gettweets',
       data: {data: this.props.hashtags}
     }).done(function(data){
-      console.log(data);
-      // if(self.state.status){
-      //   self.setState({status: false})
-      // } else {
-      //   self.setState({status: true})
-      // }
     })
   }
   handleStateChange(data){
     var arr = []
     data.forEach(function(element){
-
-      // arr.push(element.name)
       var tweets = []
       element.tweets.statuses.forEach(function(tweet){
         console.log(tweet.text)
@@ -75,18 +58,12 @@ export default class Login extends Component {
       arr.push(obj)
     })
     this.setState({hashtags: arr})
-    // console.log(this.state)
-  }
-  deleteList(){
-    console.log('deleteList');
   }
   render() {
-    console.log(this.props)
     var self = this;
     var tweets_render = this.props.hashtag_data.map(function(obj){
       var self1 = self;
       var tweets = obj.tweets.map(function(tweet){
-        // console.log(tweet.text);
         return(
           <li>{tweet.text}</li>);
       })
@@ -104,12 +81,10 @@ export default class Login extends Component {
         <div className="tweets-container">
           {tweets_render}
         </div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Hashtag:
+        <form onSubmit={this.handleSubmit} className='watch-form'>
+          <label for="hashtag">Hashtag:</label>
             <input type="text" value={this.state.value} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
+          <button type="submit" value="Submit">Submit</button>
         </form>
       </div>
 

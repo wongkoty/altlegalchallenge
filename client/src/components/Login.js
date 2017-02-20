@@ -12,24 +12,19 @@ export default class Login extends Component {
     this.twitterSignIn = this.twitterSignIn.bind(this);
   }
   twitterSignIn() {
-    console.log('twitter sign in')
     var self = this;
     $.ajax({
       url: '/auth/twitter',
       method: 'GET'
     })
     .done(function(data){
-      console.log('success')
-      console.log(typeof data);
       self.setState({test: data})
       self.twitterToken(data);
     }).fail(function(err) {
-      console.log('failed');
-      console.log(err);
+
     })
   }
   twitterToken(data) {
-    console.log(data);
     $.ajax({
       url: '/auth/twitter_token',
       method: 'POST',
@@ -37,8 +32,6 @@ export default class Login extends Component {
       dataType: 'text'
     })
     .done(function(data){
-      console.log('success');
-      console.log(data);
     })
   }
   render() {

@@ -18,10 +18,6 @@ var client = new Twitter({
 var User = require('../models/user')
 var Hashtag = require('../models/hashtag')
 
-router.get('/', function(req, res){
-  res.render('twitter/index');
-})
-
 router.get('/loggedinuser', function(req, res){
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
@@ -50,7 +46,6 @@ router.get('/auth/twitter', function(req, res){
   var url = 'https://api.twitter.com/oauth/request_token'
   request.post({url: url, oauth: oauth}, function(err, response, body){
     if (!err && response.statusCode == 200) {
-      console.log(body)
       var req_data = qs.parse(body)
       var uri = 'https://api.twitter.com/oauth/authenticate' + '?' + qs.stringify({oauth_token: req_data.oauth_token})
       res.header('Access-Control-Allow-Origin', '*');
@@ -74,7 +69,6 @@ router.post('/newwatch', function(req, res){
         req.session.save()
         res.send('errors')
       } else {
-        console.log('success')
         res.send('added list')
       }
     });

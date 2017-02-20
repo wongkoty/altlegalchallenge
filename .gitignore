@@ -1,2 +1,5 @@
 _config.jg
 node_modules
+/client/src
+/client/public
+/client/node_modules

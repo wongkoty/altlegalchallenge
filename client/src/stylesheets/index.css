@@ -123,11 +123,23 @@ nav a {
   margin-top: 40px;
   text-align: center;
 }
-.tweets-container form label {
+label {
   font-family: 'Montserrat', sans-serif;
   color: #333A39;
   margin-top: 40px;
   text-align: center;
+}
+.watch-form{
+  text-align: center;
+  margin-top: 30px;
+}
+.watch-form button {
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  border: 1px #333A39 solid;
+  padding: 1px 13px;
+  background-color: white;
 }
 .delete-button {
   display: inline-block;
