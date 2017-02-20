@@ -27,4 +27,6 @@ You will have to input your own keys, or I can send you the `_config.js` file.
 ###Note: Speeds may vary, but the application definitely works
 ###It does not do auto login, so you will have to login twice with the twitter auth
 
+![screenshot](./screenshot.png)
+
 
